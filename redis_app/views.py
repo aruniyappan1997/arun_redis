@@ -17,7 +17,7 @@ def get_user_data(request):
     cache_key = "employees_data"
     result_final = cache.get(cache_key)
     if not result_final:
-        datas = EmployeesData.objects.values('name', 'salary', 'role', 'mobile', 'city', 'joined_date')[:90]
+        datas = EmployeesData.objects.values('name', 'salary', 'role', 'mobile', 'city', 'joined_date')
         result_final = []
         for data in datas:
             single_data = {
@@ -29,6 +29,6 @@ def get_user_data(request):
                 'joined_date': data['joined_date']
             }
             result_final.append(single_data)
-            time.sleep(0.01)
+            time.sleep(1)
     cache.set(cache_key, result_final, timeout=60)  # Set cache timeout to 1 minute (60 seconds)
     return JsonResponse(result_final, safe=False)
